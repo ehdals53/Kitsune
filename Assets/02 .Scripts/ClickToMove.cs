@@ -9,10 +9,12 @@ public class ClickToMove : MonoBehaviour
     public float rotationSpeed = 10f;
     private Vector3 position;
     private CharacterController cc;
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         position = transform.position;
         cam = Camera.main;
         cc = GetComponent<CharacterController>();
@@ -49,6 +51,9 @@ public class ClickToMove : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * rotationSpeed);
             cc.SimpleMove(transform.forward * moveSpeed);
+            anim.SetBool("isMove", true);
         }
+        else
+            anim.SetBool("isMove", false);
     }
 }
