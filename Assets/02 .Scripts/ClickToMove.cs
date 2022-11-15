@@ -1,59 +1,88 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ClickToMove : MonoBehaviour
 {
-    public Camera cam;
-    public float moveSpeed = 10f;
-    public float rotationSpeed = 10f;
-    private Vector3 position;
-    private CharacterController cc;
-    private Animator anim;
+    public float moveSpeed = 5f;
+    public float rotSpeed = 10f;
+    private bool isMove;
 
-    // Start is called before the first frame update
-    void Start()
+    public Camera cam;
+    internal NavMeshAgent agent;
+    private Vector3 destination;
+
+    PlayerBehaviour pb;
+
+    private void Awake()
     {
-        anim = GetComponent<Animator>();
-        position = transform.position;
+        pb = GetComponent<PlayerBehaviour>();
+        agent = GetComponent<NavMeshAgent>();
         cam = Camera.main;
-        cc = GetComponent<CharacterController>();
+        agent.updateRotation = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        if (!pb.lockMovement && !pb.lockRotation)
         {
-            LocatePosition();
-        }
-        MoveToPosition();
-    }
+            if (Input.GetMouseButton(1))
+            {
+                LocatePosition();
+            }
+            LookMoveDirection();
 
+        }
+
+    }
     void LocatePosition()
     {
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, 1000))
+        if (Physics.Raycast(ray, out hit, 100))
         {
-            position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            if(hit.collider.tag != "Player")
+            {
+                SetDestination(hit.point);
+            }
         }
+        Debug.Log(hit.point);
     }
-    void MoveToPosition()
+    private void SetDestination(Vector3 dest)
     {
-        if (Vector3.Distance(transform.position, position) > 1)
-        {
-            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.forward);
+        agent.SetDestination(dest);
+        destination = dest;
+        isMove = true;
+        agent.isStopped = false;
+        pb.anim.SetFloat(AnimatorParameters.hashSpeed, 1f);
 
-            rot.x = 0f;
-            rot.z = 0f;
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * rotationSpeed);
-            cc.SimpleMove(transform.forward * moveSpeed);
-            anim.SetBool("isMove", true);
-        }
-        else
-            anim.SetBool("isMove", false);
     }
+    private void LookMoveDirection()
+    {
+        if (isMove)
+        {
+            if (agent.velocity.magnitude == 0f)
+            {
+                isMove = false;
+                pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0f);
+                return;
+            }
+
+            var dir = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
+            pb.anim.transform.forward = dir;
+        }
+    }
+    public void Stop()
+    {
+        isMove = false;
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+        pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0f);
+    }
+
+
 }
