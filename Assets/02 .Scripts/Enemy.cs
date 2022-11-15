@@ -130,7 +130,6 @@ public class Enemy : MonoBehaviour
                     Stop();
                     anim.SetBool(hashDie, true);
                     break;
-
             }
         } 
          
@@ -156,7 +155,6 @@ public class Enemy : MonoBehaviour
             enemyTr.rotation = Quaternion.Slerp(enemyTr.rotation, rot, Time.deltaTime * damping);
         }
     }
-
 
     private void OnMouseOver()
     {

@@ -72,12 +72,8 @@ public class PlayerBehaviour : MonoBehaviour
 
             anim.SetTrigger(AnimatorParameters.hashAttack);
             transform.LookAt(opponent.transform.position);
-
         }
     }
-    
-
-
 }
 public static partial class AnimatorParameters
 {

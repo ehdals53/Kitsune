@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,10 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 700947284, guid: 56f94f9a96edad54089a21a95c77e14a, type: 3}
-      propertyPath: m_AutoBraking
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1097546800, guid: 56f94f9a96edad54089a21a95c77e14a, type: 3}
       propertyPath: cam
       value: 
@@ -741,28 +737,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1551599897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2337482801373077539, guid: 56f94f9a96edad54089a21a95c77e14a, type: 3}
-  m_PrefabInstance: {fileID: 415958423}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1551599903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551599897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28d4b0a9af1a6d48b1916f2c23f4051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  opponent: {fileID: 0}
-  attackDelay: 1
-  isAttacking: 0
-  lockMovement: 0
-  lockRotation: 0
 --- !u!1 &1882277627
 GameObject:
   m_ObjectHideFlags: 0

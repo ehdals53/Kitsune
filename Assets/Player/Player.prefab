@@ -1148,6 +1148,7 @@ GameObject:
   - component: {fileID: 700947285}
   - component: {fileID: 700947286}
   - component: {fileID: 700947284}
+  - component: {fileID: 1551599903}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1221,6 +1222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  rotSpeed: 10
   cam: {fileID: 0}
 --- !u!54 &700947285
 Rigidbody:
@@ -1274,6 +1276,23 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1551599903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337482801373077539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28d4b0a9af1a6d48b1916f2c23f4051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  opponent: {fileID: 0}
+  attackDelay: 1
+  isAttacking: 0
+  lockMovement: 0
+  lockRotation: 0
 --- !u!1 &2337482801373077541
 GameObject:
   m_ObjectHideFlags: 0
