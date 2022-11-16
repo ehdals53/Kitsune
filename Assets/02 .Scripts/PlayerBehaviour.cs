@@ -9,12 +9,9 @@ public class PlayerBehaviour : MonoBehaviour
     internal Animator anim;
     internal ClickToMove cm;
 
-    public float attackDelay = 0.5f;
     private float attackCounter;
 
     [SerializeField] internal bool isAttacking;
-    [SerializeField] internal bool lockMovement = false;
-    [SerializeField] internal bool lockRotation = false;
 
 
     // Start is called before the first frame update
@@ -27,53 +24,11 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AttackInput();
-        ControlAttackBehaviour();
+
 
     }
 
 
-    //protected virtual bool AttackConditions()
-    //{
-    //    return
-    //}
-    protected virtual void ControlAttackBehaviour()
-    {
-        if (!isAttacking) return;
-
-        attackCounter -= Time.deltaTime;
-        
-        if(attackCounter <= 0)
-        {
-            attackCounter = 0;
-            isAttacking = false;
-            lockRotation = false;
-            lockMovement = false;
-            //anim.ResetTrigger(AnimatorParameters.hashAttack);
-        }
-    }
-    protected virtual void AttackInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack();
-        }
-    }
-    public virtual void Attack()
-    {
-
-        if (!isAttacking)
-        {
-            attackCounter = attackDelay;
-            lockRotation = true;
-            lockMovement = true;
-            isAttacking = true;
-            cm.Stop();
-
-            anim.SetTrigger(AnimatorParameters.hashAttack);
-            transform.LookAt(opponent.transform.position);
-        }
-    }
 }
 public static partial class AnimatorParameters
 {

@@ -6,34 +6,39 @@ using UnityEngine.AI;
 public class ClickToMove : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float rotSpeed = 10f;
-    private bool isMove;
+    public float rotationSpeed = 5f;
 
     public Camera cam;
     internal NavMeshAgent agent;
-    private Vector3 destination;
 
     PlayerBehaviour pb;
+
+    [SerializeField] private GameObject clickMarkerPrefab;
+    [SerializeField] private Transform visualObjectsParent;
 
     private void Awake()
     {
         pb = GetComponent<PlayerBehaviour>();
         agent = GetComponent<NavMeshAgent>();
         cam = Camera.main;
-        agent.updateRotation = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!pb.lockMovement && !pb.lockRotation)
-        {
-            if (Input.GetMouseButton(1))
-            {
-                LocatePosition();
-            }
-            LookMoveDirection();
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            LocatePosition();
+        }
+
+        if(Vector3.Distance(agent.destination, transform.position) <= agent.stoppingDistance)
+        {
+            clickMarkerPrefab.transform.SetParent(transform);
+            clickMarkerPrefab.SetActive(false);
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0);
         }
 
     }
@@ -44,44 +49,35 @@ public class ClickToMove : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100))
         {
-            if(hit.collider.tag != "Player")
-            {
-                SetDestination(hit.point);
-            }
+            SetDestination(hit.point);
+
+            //if (hit.collider.tag != "Player")
+            //{
+            //}
         }
-        Debug.Log(hit.point);
+        //Debug.Log(hit.point);
     }
     private void SetDestination(Vector3 dest)
     {
+        clickMarkerPrefab.SetActive(true);
+        clickMarkerPrefab.transform.SetParent(visualObjectsParent);
+        clickMarkerPrefab.transform.position = dest;
+        agent.speed = moveSpeed;
         agent.SetDestination(dest);
-        destination = dest;
-        isMove = true;
         agent.isStopped = false;
         pb.anim.SetFloat(AnimatorParameters.hashSpeed, 1f);
 
-
     }
-    private void LookMoveDirection()
+    public void StopMove()
     {
-        if (isMove)
-        {
-            if (agent.velocity.magnitude == 0f)
-            {
-                isMove = false;
-                pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0f);
-                return;
-            }
-
-            var dir = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
-            pb.anim.transform.forward = dir;
-        }
-    }
-    public void Stop()
-    {
-        isMove = false;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0f);
+    }
+
+    public void StartMove()
+    {
+        agent.isStopped = false;
     }
 
 
