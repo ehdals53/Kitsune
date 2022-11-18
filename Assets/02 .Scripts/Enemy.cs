@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private WaitForSeconds ws;
     private NavMeshAgent agent;
+    private Rigidbody rigid;
 
     public bool isDie = false;
 
@@ -62,8 +63,10 @@ public class Enemy : MonoBehaviour
         }
         ws = new WaitForSeconds(0.3f);
         enemyTr = GetComponent<Transform>();
+        rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        rigid.sleepThreshold = 0.0f;
         agent.updateRotation = false;
         agent.autoBraking = false;
         agent.speed = moveSpeed;
@@ -159,6 +162,12 @@ public class Enemy : MonoBehaviour
     private void OnMouseOver()
     {
         playerTr.GetComponent<PlayerBehaviour>().opponent = this.gameObject;
+        Cursor.SetCursor(GameManager.instance.cursers[1], Vector2.zero, CursorMode.Auto);
+    }
+    private void OnMouseExit()
+    {
+        Cursor.SetCursor(GameManager.instance.cursers[0], Vector2.zero, CursorMode.Auto);
+
     }
 
 }

@@ -5,42 +5,39 @@ using UnityEngine.AI;
 
 public class ClickToMove : MonoBehaviour
 {
+    public GameObject attackIndicator;
     public float moveSpeed = 5f;
-    public float rotationSpeed = 5f;
+    public float rotationSpeed = 10f;
 
     public Camera cam;
     internal NavMeshAgent agent;
 
     PlayerBehaviour pb;
 
-    [SerializeField] private GameObject clickMarkerPrefab;
-    [SerializeField] private Transform visualObjectsParent;
-
     private void Awake()
     {
         pb = GetComponent<PlayerBehaviour>();
         agent = GetComponent<NavMeshAgent>();
         cam = Camera.main;
+        agent.updateRotation = false;
+        attackIndicator.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(1))
+        
+        if (Input.GetMouseButton(1))
         {
             LocatePosition();
         }
 
-        if(Vector3.Distance(agent.destination, transform.position) <= agent.stoppingDistance)
+        if((Vector3.Distance(agent.destination, transform.position) <= agent.stoppingDistance) || Input.GetKeyDown(KeyCode.S))
         {
-            clickMarkerPrefab.transform.SetParent(transform);
-            clickMarkerPrefab.SetActive(false);
-            agent.isStopped = true;
-            agent.velocity = Vector3.zero;
-            pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0);
+            StopMove();
         }
 
+        SetRotation();
     }
     void LocatePosition()
     {
@@ -49,36 +46,47 @@ public class ClickToMove : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100))
         {
-            SetDestination(hit.point);
-
-            //if (hit.collider.tag != "Player")
-            //{
-            //}
+            if (hit.collider.gameObject.tag != "Player")
+            {
+                //Debug.Log("Move");
+                SetDestination(hit.point);
+            }
         }
-        //Debug.Log(hit.point);
     }
-    private void SetDestination(Vector3 dest)
+    public void SetDestination(Vector3 destination)
     {
-        clickMarkerPrefab.SetActive(true);
-        clickMarkerPrefab.transform.SetParent(visualObjectsParent);
-        clickMarkerPrefab.transform.position = dest;
+        StartMove();
         agent.speed = moveSpeed;
-        agent.SetDestination(dest);
-        agent.isStopped = false;
-        pb.anim.SetFloat(AnimatorParameters.hashSpeed, 1f);
+        agent.SetDestination(destination);
+        pb.isAttacking = false;
+        agent.stoppingDistance = 0;
+        Cursor.SetCursor(GameManager.instance.cursers[0], Vector2.zero, CursorMode.Auto);
+        pb.anim.SetBool(AnimatorParameters.hashAttacking, false);
+        pb.anim.ResetTrigger(AnimatorParameters.hashAttack);
 
+
+    }
+
+
+    public void SetRotation()
+    {
+        if (!agent.isStopped)
+        {
+            Vector3 lookrotation = agent.steeringTarget - transform.position;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), rotationSpeed * Time.deltaTime);
+
+        }
     }
     public void StopMove()
     {
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
-        pb.anim.SetFloat(AnimatorParameters.hashSpeed, 0f);
+        pb.anim.SetBool(AnimatorParameters.hashMove, false);
     }
 
     public void StartMove()
     {
         agent.isStopped = false;
+        pb.anim.SetBool(AnimatorParameters.hashMove, true);
     }
-
-
 }
