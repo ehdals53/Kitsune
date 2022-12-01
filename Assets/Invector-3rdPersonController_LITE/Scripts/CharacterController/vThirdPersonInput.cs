@@ -133,11 +133,13 @@ namespace Invector.vCharacterController
             if (Input.GetMouseButton(1))
             {
                 cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
+                Cursor.visible = true;
+                //cc.vcam.
             }
             else
             {
                 cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, 60f, cc.zoom * Time.deltaTime);
-
+                Cursor.visible = false;
             }
         }
         protected virtual void SprintInput()

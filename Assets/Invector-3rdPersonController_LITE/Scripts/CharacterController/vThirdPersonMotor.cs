@@ -60,6 +60,7 @@ namespace Invector.vCharacterController
         public float zoomSpeed = 5f;
         
         
+
         #endregion
 
         #region Components
