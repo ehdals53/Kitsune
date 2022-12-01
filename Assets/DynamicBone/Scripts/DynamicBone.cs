@@ -32,35 +32,35 @@ public class DynamicBone : MonoBehaviour
     public UpdateMode m_UpdateMode = UpdateMode.Default;
 
 #if UNITY_5_3_OR_NEWER
-    [Tooltip("How much the bones slowed down.")]
+    [Tooltip("뼈가 얼마나 느려졌는지.")]
 #endif
     [Range(0, 1)]
     public float m_Damping = 0.1f;
     public AnimationCurve m_DampingDistrib = null;
 
 #if UNITY_5_3_OR_NEWER
-    [Tooltip("How much the force applied to return each bone to original orientation.")]
+    [Tooltip("각 골격을 원래 방향으로 되돌리기 위해 적용되는 힘의 양입니다.")]
 #endif
     [Range(0, 1)]
     public float m_Elasticity = 0.1f;
     public AnimationCurve m_ElasticityDistrib = null;
 
 #if UNITY_5_3_OR_NEWER
-    [Tooltip("How much bone's original orientation are preserved.")]
+    [Tooltip("뼈의 원래 방향이 보존되는 정도입니다.")]
 #endif
     [Range(0, 1)]
     public float m_Stiffness = 0.1f;
     public AnimationCurve m_StiffnessDistrib = null;
 
 #if UNITY_5_3_OR_NEWER
-    [Tooltip("How much character's position change is ignored in physics simulation.")]
+    [Tooltip("물리 시뮬레이션에서 캐릭터의 위치 변경이 얼마나 무시되는지.")]
 #endif
     [Range(0, 1)]
     public float m_Inert = 0;
     public AnimationCurve m_InertDistrib = null;
 
 #if UNITY_5_3_OR_NEWER
-    [Tooltip("How much the bones slowed down when collide.")]
+    [Tooltip("충돌할 때 뼈가 얼마나 느려졌는지.")]
 #endif
     public float m_Friction = 0;
     public AnimationCurve m_FrictionDistrib = null;
