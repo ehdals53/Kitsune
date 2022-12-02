@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb637eb081ba02f4c990e9b260cdacc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimTexture: {fileID: 0}
+  aimTexture: {fileID: 2800000, guid: f27d2a87b8553f8438fadbb8f50e9bbd, type: 3}
 --- !u!1 &1744230856
 GameObject:
   m_ObjectHideFlags: 0

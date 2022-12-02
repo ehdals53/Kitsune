@@ -134,7 +134,7 @@ namespace Invector.vCharacterController
             {
                 cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
                 Cursor.visible = true;
-                //cc.vcam.
+                Cursor.SetCursor(UIManager.instance.aimTexture, Vector2.zero, CursorMode.Auto);
             }
             else
             {

@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    public Texture aimTexture;
+    public Texture2D aimTexture;
 
 
     private void Awake()
