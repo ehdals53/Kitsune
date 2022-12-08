@@ -126,7 +126,7 @@ namespace Invector.vCharacterController
 
         public void Init()
         {
-            vcam = GameObject.FindGameObjectWithTag("Vcam").GetComponent<CinemachineVirtualCamera>();
+            //vcam = GameObject.FindGameObjectWithTag("Vcam").GetComponent<CinemachineVirtualCamera>();
             animator = GetComponent<Animator>();
             animator.updateMode = AnimatorUpdateMode.AnimatePhysics;
 
@@ -164,7 +164,6 @@ namespace Invector.vCharacterController
 
             isGrounded = true;
 
-            Cursor.lockState = CursorLockMode.Locked;
 
         }
 

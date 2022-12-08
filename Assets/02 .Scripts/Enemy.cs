@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour
                     anim.SetBool(hashMove, true);
                     break;
                 case State.ATTACK:
+                    anim.SetTrigger("Attack");
                     Stop();
                     anim.SetBool(hashMove, false);
                     break;
@@ -144,11 +145,16 @@ public class Enemy : MonoBehaviour
         agent.destination = pos;
         agent.isStopped = false;
 
+
     }
     public void Stop()
     {
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+    }
+    public void StartMove()
+    {
+        agent.isStopped = false;
     }
     void Update()
     {

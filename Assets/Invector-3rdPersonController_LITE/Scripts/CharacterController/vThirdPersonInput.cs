@@ -27,6 +27,7 @@ namespace Invector.vCharacterController
 
         protected virtual void Start()
         {
+            Cursor.lockState= CursorLockMode.Locked;
             InitilizeController();
             InitializeTpCamera();
         }
@@ -132,13 +133,13 @@ namespace Invector.vCharacterController
         {
             if (Input.GetMouseButton(1))
             {
-                cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
+                //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
                 Cursor.visible = true;
                 Cursor.SetCursor(UIManager.instance.aimTexture, Vector2.zero, CursorMode.Auto);
             }
             else
             {
-                cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, 60f, cc.zoom * Time.deltaTime);
+                //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, 60f, cc.zoom * Time.deltaTime);
                 Cursor.visible = false;
             }
         }
