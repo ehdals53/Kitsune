@@ -32,6 +32,8 @@ public class Enemy : MonoBehaviour
     public bool isDie = false;
 
     private Vector3 _traceTarget; // 추적 대상 위치 저장 변수
+    
+    
     public Vector3 traceTarget
     {
         get {  return _traceTarget; }

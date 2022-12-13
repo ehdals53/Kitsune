@@ -16,9 +16,9 @@
                 },
                 {
                     "name": "Camera",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "89dba396-8c28-450e-9aba-3f6eda170751",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -83,9 +83,9 @@
                 {
                     "name": "",
                     "id": "23aa3d81-e87e-419f-bead-d86877b52cb4",
-                    "path": "",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Camera",
                     "isComposite": false,
