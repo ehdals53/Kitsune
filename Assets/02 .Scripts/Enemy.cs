@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    // »óÅÂ Ç¥ÇöÀ» À§ÇÑ ¿­°ÅÇü º¯¼ö Á¤ÀÇ
+    // ìƒíƒœ í‘œí˜„ì„ ìœ„í•œ ì—´ê±°í˜• ë³€ìˆ˜ ì •ì˜
     public enum State  
     {
         IDLE,
@@ -17,13 +17,12 @@ public class Enemy : MonoBehaviour
 
     public State state = State.IDLE;
 
-    public float attackDist = 2f; // °ø°İ °Å¸®
-    public float traceDist = 5f; // ÃßÀû °Å¸®
+    public float attackDist = 2f; // ê³µê²© ê±°ë¦¬
+    public float traceDist = 5f; // ì¶”ì  ê±°ë¦¬
     public float moveSpeed = 2f;
-    private float damping = 1f; // È¸Àü ¼Óµµ Á¶Àı º¯¼ö
-
-    private Transform playerTr; // ÇÃ·¹ÀÌ¾î À§Ä¡
-    private Transform enemyTr; // Àû À§Ä¡
+    private float damping = 1f; // íšŒì „ ì†ë„ ì¡°ì ˆ ë³€ìˆ˜
+    private Transform playerTr; // í”Œë ˆì´ì–´ ìœ„ì¹˜
+    private Transform enemyTr; // ì  ìœ„ì¹˜
     private Animator anim;
     private WaitForSeconds ws;
     private NavMeshAgent agent;
@@ -31,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     public bool isDie = false;
 
-    private Vector3 _traceTarget; // ÃßÀû ´ë»ó À§Ä¡ ÀúÀå º¯¼ö
+    private Vector3 _traceTarget; // ì¶”ì  ëŒ€ìƒ ìœ„ì¹˜ ì €ì¥ ë³€ìˆ˜
     
     
     public Vector3 traceTarget
@@ -80,23 +79,23 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Action());
 
     }
-    // »óÅÂ °Ë»ç ÄÚ·çÆ¾ (0.3ÃÊ¸¶´Ù °Ë»ç)
+    // ìƒíƒœ ê²€ì‚¬ ì½”ë£¨í‹´ (0.3ì´ˆë§ˆë‹¤ ê²€ì‚¬)
 
     IEnumerator CheckState()
     {
         while (!isDie)
         {
-            if (state == State.DIE) // »ç¸Á»óÅÂ¸é ÄÚ·çÆ¾ Á¾·á
+            if (state == State.DIE) // ì‚¬ë§ìƒíƒœë©´ ì½”ë£¨í‹´ ì¢…ë£Œ
                 yield break;
 
-            // ÇÃ·¹ÀÌ¾î - Àû »çÀÌ °Å¸® °è»ê
+            // í”Œë ˆì´ì–´ - ì  ì‚¬ì´ ê±°ë¦¬ ê³„ì‚°
             float dist = Vector3.Distance(playerTr.position, enemyTr.position);
 
-            if(dist <= attackDist)  // °ø°İ °Å¸® ÀÌ³»ÀÏ ¶§
+            if(dist <= attackDist)  // ê³µê²© ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ
             {
                 state = State.ATTACK;
             }
-            else if(dist <= traceDist) // ÃßÀû °Å¸® ÀÌ³»ÀÏ ¶§
+            else if(dist <= traceDist) // ì¶”ì  ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ
             {
                 state = State.TRACE;
             }
@@ -108,7 +107,7 @@ public class Enemy : MonoBehaviour
             yield return ws;
         }
     }
-    // »óÅÂ¿¡ µû¶ó Çàµ¿À» Ã³¸®ÇÏ´Â ÄÚ·çÆ¾ ÇÔ¼ö
+    // ìƒíƒœì— ë”°ë¼ í–‰ë™ì„ ì²˜ë¦¬í•˜ëŠ” ì½”ë£¨í‹´ í•¨ìˆ˜
     IEnumerator Action()
     {
         while (!isDie)

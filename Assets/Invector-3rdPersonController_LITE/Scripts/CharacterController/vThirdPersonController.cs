@@ -71,7 +71,7 @@ namespace Invector.vCharacterController
                 var forward = Quaternion.AngleAxis(-90, Vector3.up) * right;
                 // determine the direction the player will face based on input and the referenceTransform's right and forward directions
                 moveDirection = (inputSmooth.x * right) + (inputSmooth.z * forward);
-            }
+            }    
             else
             {
                 moveDirection = new Vector3(inputSmooth.x, 0, inputSmooth.z);
@@ -126,8 +126,27 @@ namespace Invector.vCharacterController
                 animator.CrossFadeInFixedTime("JumpMove", 0.1f);
         }
         public virtual void Attack()
-        {
-            animator.CrossFadeInFixedTime("Attack", 0.1f);
+        { 
+            // Create a ray from the player's position in the direction they are facing
+            Ray ray = new Ray(transform.position, transform.forward);
+            // Create a RaycastHit object to store information about the object hit by the ray
+            RaycastHit hit;
+            
+            animator.CrossFadeInFixedTime("Atk" + Random.Range(1, 15), 0.1f);
+
+            // Check if the ray hits an object within the attack range and with the specified attack mask
+            if (Physics.Raycast(ray, out hit, attackRange, attackMask))
+            {
+                Debug.DrawRay(transform.position, transform.forward, Color.magenta);
+                // Get the Health component of the object hit by the ray
+                Boss targetHealth = hit.transform.GetComponent<Boss>();
+
+                // If the object has a Health component, decrease its health by the attack damage
+                if (targetHealth != null)
+                {
+                    targetHealth.TakeDamage(attackDamage);
+                }
+            }
         }
 
 

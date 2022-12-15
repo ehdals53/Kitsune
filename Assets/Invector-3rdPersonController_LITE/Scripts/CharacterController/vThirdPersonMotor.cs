@@ -55,7 +55,16 @@ namespace Invector.vCharacterController
         [Tooltip("Max angle to walk")]
         [Range(30, 80)] public float slopeLimit = 75f;
 
-        [Header("- Attack")]
+        [Header("- Attack")] [Tooltip("Attack ")]
+        public float attackDamage = 10f; // The amount of damage the player's attack does
+        public float attackRange = 1f; // The range of the player's attack
+        public float attackRate = 1f; // The rate at which the player can attack, in attacks per second
+        public LayerMask attackMask; // The layer mask for the objects that can be attacked
+
+        public float nextAttackTime = 0f; // The time when the player can attack again
+        
+        
+        
         public float zoom;
         public float zoomSpeed = 5f;
         
