@@ -11,10 +11,10 @@ namespace Invector.vCharacterController
         public string verticallInput = "Vertical";
         public KeyCode jumpInput = KeyCode.Space;
         //public KeyCode strafeInput = KeyCode.Tab;
-        public KeyCode strafeInput = KeyCode.Mouse1;
+        public KeyCode strafeInput = KeyCode.Tab;
         public KeyCode attackInput = KeyCode.Mouse0;
         public KeyCode sprintInput = KeyCode.LeftShift;
-
+        public KeyCode dashInput = KeyCode.Mouse1;
         [Header("Camera Input")]
         public string rotateCameraXInput = "Mouse X";
         public string rotateCameraYInput = "Mouse Y";
@@ -83,7 +83,8 @@ namespace Invector.vCharacterController
             StrafeInput();
             JumpInput();
             AttackInput();
-            ZoomInput();
+            DashInput();
+            //ZoomInput();
         }
 
         public virtual void MoveInput()
@@ -129,20 +130,20 @@ namespace Invector.vCharacterController
                 cc.Strafe();
             }
         }
-        protected virtual void ZoomInput()
-        {
-            if (Input.GetMouseButton(1))
-            {
-                //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
-                Cursor.visible = true;
-                Cursor.SetCursor(UIManager.instance.aimTexture, Vector2.zero, CursorMode.Auto);
-            }
-            else
-            {
-                //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, 60f, cc.zoom * Time.deltaTime);
-                Cursor.visible = false;
-            }
-        }
+        // protected virtual void ZoomInput()
+        // {
+        //     if (Input.GetMouseButton(1))
+        //     {
+        //         //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, cc.zoom, cc.zoom * Time.deltaTime);
+        //         Cursor.visible = true;
+        //         Cursor.SetCursor(UIManager.instance.aimTexture, Vector2.zero, CursorMode.Auto);
+        //     }
+        //     else
+        //     {
+        //         //cc.vcam.m_Lens.FieldOfView = Mathf.Lerp(cc.vcam.m_Lens.FieldOfView, 60f, cc.zoom * Time.deltaTime);
+        //         Cursor.visible = false;
+        //     }
+        // }
         protected virtual void SprintInput()
         {
             if (Input.GetKeyDown(sprintInput))
@@ -177,10 +178,23 @@ namespace Invector.vCharacterController
         }
         protected virtual void AttackInput()
         {
-            if (Input.GetKeyDown(attackInput) && Time.time >= cc.nextAttackTime)
+            cc.attackTimer += Time.deltaTime;
+            
+            if (Input.GetKey(attackInput) && cc.attackTimer >= cc.attackCoolDown)
             {
-                cc.Attack();
-                cc.nextAttackTime = Time.time + 1f / cc.attackRate;
+                cc.attackTimer = 0;
+                StartCoroutine(cc.Attack());
+            }
+        }
+
+        protected virtual void DashInput()
+        {
+            cc.dashTimer += Time.deltaTime;
+
+            if (Input.GetKeyDown(dashInput) && cc.dashTimer >= cc.dashCoolDown)
+            {
+                cc.dashTimer = 0;
+                StartCoroutine(cc.Dash());
             }
         }
     }

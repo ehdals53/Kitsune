@@ -55,18 +55,20 @@ namespace Invector.vCharacterController
         [Tooltip("Max angle to walk")]
         [Range(30, 80)] public float slopeLimit = 75f;
 
-        [Header("- Attack")] [Tooltip("Attack ")]
+        [Header("- Attack")] 
+        [Tooltip("Attack ")]
         public float attackDamage = 10f; // The amount of damage the player's attack does
-        public float attackRange = 1f; // The range of the player's attack
-        public float attackRate = 1f; // The rate at which the player can attack, in attacks per second
-        public LayerMask attackMask; // The layer mask for the objects that can be attacked
+        public float attackRange = 1.5f; // The range of the player's attack
+        public float attackTimer;        // A timer for tracking the attack cool down
+        public float attackCoolDown = 1f;        // The attack cool down time
 
-        public float nextAttackTime = 0f; // The time when the player can attack again
+        [Header("- Skill")] 
+        [Tooltip("Dash")] 
+        public float dashDistance = 5f;
+        public float dashDuration = 0.5f;
+        public float dashTimer;
+        public float dashCoolDown = 1;
         
-        
-        
-        public float zoom;
-        public float zoomSpeed = 5f;
         
         
 
@@ -119,6 +121,7 @@ namespace Invector.vCharacterController
         internal float colliderRadius, colliderHeight;      // storage capsule collider extra information        
         internal float heightReached;                       // max height that character reached in air;
         internal float jumpCounter;                         // used to count the routine to reset the jump
+        internal float dashCounter;
         internal float groundDistance;                      // used to know the distance from the ground
         internal RaycastHit groundHit;                      // raycast to hit the ground 
         internal bool lockMovement = false;                 // lock the movement of the controller (not the animation)

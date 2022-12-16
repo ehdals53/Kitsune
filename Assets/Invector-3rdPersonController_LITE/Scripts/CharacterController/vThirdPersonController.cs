@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Invector.vCharacterController
 {
@@ -124,34 +125,41 @@ namespace Invector.vCharacterController
                 animator.CrossFadeInFixedTime("Jump", 0.1f);
             else
                 animator.CrossFadeInFixedTime("JumpMove", 0.1f);
-        }
-        public virtual void Attack()
+        } 
+        
+        public IEnumerator Attack()
         { 
-            // Create a ray from the player's position in the direction they are facing
-            Ray ray = new Ray(transform.position, transform.forward);
-            // Create a RaycastHit object to store information about the object hit by the ray
-            RaycastHit hit;
+            animator.CrossFadeInFixedTime("Atk" + Random.Range(1, 15), 0.25f);
+
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        }
+
+        public IEnumerator Dash()
+        {
+            // Get the player's current position and direction
+            Vector3 startPosition = transform.position;
+            Vector3 direction = transform.forward;
             
-            animator.CrossFadeInFixedTime("Atk" + Random.Range(1, 15), 0.1f);
+            // Calculate the end position of the dodge
+            Vector3 endPosition = startPosition + direction * dashDistance;
+            
+            // Calculate the elapsed time for the dodge
+            float elapsedTime = 0f;
 
-            // Check if the ray hits an object within the attack range and with the specified attack mask
-            if (Physics.Raycast(ray, out hit, attackRange, attackMask))
+            // Perform the dodge
+            while (elapsedTime < dashDuration)
             {
-                Debug.DrawRay(transform.position, transform.forward, Color.magenta);
-                // Get the Health component of the object hit by the ray
-                Boss targetHealth = hit.transform.GetComponent<Boss>();
+                // Move the player towards the end position
+                transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / dashDuration);
 
-                // If the object has a Health component, decrease its health by the attack damage
-                if (targetHealth != null)
-                {
-                    targetHealth.TakeDamage(attackDamage);
-                }
+                // Update the elapsed time
+                elapsedTime += Time.deltaTime;
+
+                animator.CrossFadeInFixedTime("Dash", 0.1f);
+                // Wait for the next frame
+                yield return null;
             }
         }
 
-
-        public virtual void Aim()
-        {
-        }
     }
 }
